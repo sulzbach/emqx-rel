@@ -124,7 +124,7 @@ relx_escript() {
 
 # Output a start command for the last argument of run_erl
 relx_start_command() {
-    printf "exec \"%s\" \"%s\"" "{{ runner_bin_dir }}/$REL_NAME" \
+    printf "exec \"%s\" \"%s\"" "/usr/sbin/$REL_NAME" \
            "$START_OPTION"
 }
 

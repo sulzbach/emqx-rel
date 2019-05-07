@@ -4,6 +4,26 @@
 
 set -e
 
+# SCRIPT=$(readlink $0 || true)
+# if [ -z $SCRIPT ]; then
+#     SCRIPT=$0
+# fi;
+# SCRIPT_DIR="$(cd `dirname "$SCRIPT"` && pwd -P)"
+# if [ -d "/usr/lib64/emqttd" ]; then
+#     RUNNER_ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd -P)/lib64/emqttd"
+# else
+#     RUNNER_ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd -P)/lib/emqttd"
+# fi
+# REL_NAME="emqttd"
+# REL_VSN="2.3.11"
+# ERTS_VSN="9.0"
+# REL_DIR="$RUNNER_ROOT_DIR/releases/$REL_VSN"
+# ERL_OPTS=""
+# RUNNER_LOG_DIR=/var/log/emqttd
+# RUNNER_LIB_DIR=$RUNNER_ROOT_DIR/lib
+# RUNNER_ETC_DIR=/etc/emqttd
+# RUNNER_DATA_DIR=/var/lib/emqttd
+
 SCRIPT=$(readlink $0 || true)
 if [ -z $SCRIPT ]; then
     SCRIPT=$0
@@ -13,6 +33,8 @@ RUNNER_ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd -P){{ runner_root_dir }}"
 REL_NAME="emqttd"
 REL_VSN="{{ rel_vsn }}"
 ERTS_VSN="{{ erts_vsn }}"
+ERTS_PATH=$RUNNER_ROOT_DIR/erts-$ERTS_VSN/bin
+CODE_LOADING_MODE="${CODE_LOADING_MODE:-embedded}"
 REL_DIR="$RUNNER_ROOT_DIR/releases/$REL_VSN"
 ERL_OPTS="{{ erl_opts }}"
 RUNNER_LOG_DIR={{ runner_log_dir }}
@@ -95,4 +117,3 @@ export BINDIR="$ERTS_DIR/bin"
 cd "$ROOTDIR"
 
 relx_nodetool rpc emqttd_ctl run $@
-
